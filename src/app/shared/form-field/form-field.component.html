@@ -1,0 +1,68 @@
+<ng-container *ngIf="formGroup && formData?.length">
+  <form [formGroup]="formGroup">
+    <section class="form-section">
+      <ng-container *ngFor="let field of formData">
+        <!-- Form Field Starts -->
+
+        <!-- Email Field starts -->
+        <ng-container *ngIf="field.type === 'email'">
+          <mat-form-field [appearance]="'outline'">
+            <input
+              matInput
+              type="email"
+              [placeholder]="field.placeholder"
+              [formControlName]="field.name"
+            />
+          </mat-form-field>
+          <ng-container *ngIf="control[field.name] as fieldControl">
+            <ng-container
+              *ngIf="fieldControl.errors?.['required'] && fieldControl.touched"
+            >
+              <mat-error> {{ field.name | titlecase }} is required</mat-error>
+            </ng-container>
+            <ng-container
+              *ngIf="fieldControl.errors?.['email'] && fieldControl.touched"
+            >
+              <mat-error>
+                Enter correct {{ field.name | titlecase }}
+              </mat-error>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <!-- Email Field ends -->
+
+        <!-- Email Field starts -->
+        <ng-container *ngIf="field.type === 'password'">
+          <mat-form-field [appearance]="'outline'">
+            <input
+              matInput
+              type="password"
+              [placeholder]="field.placeholder"
+              [formControlName]="field.name"
+            />
+          </mat-form-field>
+          <ng-container *ngIf="control[field.name] as fieldControl">
+            <ng-container
+              *ngIf="fieldControl.errors?.['required'] && fieldControl.touched"
+            >
+              <mat-error> {{ field.name | titlecase }} is required</mat-error>
+            </ng-container>
+            <ng-container
+              *ngIf="fieldControl.errors?.['email'] && fieldControl.touched"
+            >
+              <mat-error>
+                Enter correct {{ field.name | titlecase }}
+              </mat-error>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <!-- Email Field ends -->
+      </ng-container>
+    </section>
+    <section class="button-section">
+      <button class="submit-button" type="submit" (click)="valueChangeEvent()">
+        {{ submitButtonText ?? "Submit" }}
+      </button>
+    </section>
+  </form>
+</ng-container>
