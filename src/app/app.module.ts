@@ -1,20 +1,36 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormFieldComponent } from './shared/form-field/form-field.component';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'login',
+    canActivate: [AuthGuard],
+    loadComponent: async () =>
+      (await import('./core/login/login.component')).LoginComponent,
+  },
+  {
+    path: 'user-list',
+    canActivate: [AuthGuard],
+    loadComponent: async () =>
+      (await import('./core/table/table.component')).TableComponent,
+  },
+  {
+    path: '**',
+    canActivate: [AuthGuard],
+    loadComponent: async () =>
+      (await import('./core/login/login.component')).LoginComponent,
+  },
+];
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
-    AppRoutingModule,
-    FormFieldComponent,
     BrowserAnimationsModule,
   ],
   providers: [],

@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+.icon-container {
+    display: flex;
+    gap: 10px;
+
+    .edit,
+    .delete {
+        cursor: pointer;
+    }
+
+    .delete {
+        color: red;
+    }
+}
