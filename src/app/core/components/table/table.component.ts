@@ -13,6 +13,9 @@ import { map } from 'rxjs';
 import { DeleteUser, EditUser } from 'src/app/state/user.action';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableData } from 'src/app/shared/Interface/ITableData';
+import { AuthenticationService } from '../../services/authentication.service';
+import { CURRENT_USER_KEY } from 'src/app/shared/classes/cacheKeys';
+import { CacheData } from 'src/app/shared/classes/cacheData';
 
 @Component({
   selector: 'app-table',
@@ -25,10 +28,16 @@ export class TableComponent {
   dataSource: MatTableDataSource<ITableData> | undefined;
   editForm!: IFormField[];
   currentEditIndex: number | undefined;
+  isEditable: boolean = false;
   @ViewChild('editModal') editModalElement!: TemplateRef<ElementRef>;
   @ViewChild('deleteModal') deleteModalElement!: TemplateRef<ElementRef>;
 
-  constructor(private dialog: MatDialog, private store: Store) {
+  constructor(
+    private dialog: MatDialog,
+    private store: Store,
+    private auth: AuthenticationService
+  ) {
+    this.isEditable = this.auth.currentUserData?.isUserAdmin ?? false;
     this.store
       .select(getData)
       .pipe(map((data) => data.user))
@@ -39,7 +48,7 @@ export class TableComponent {
   }
 
   logout() {
-    // CacheData.deleteKey()
+    this.auth.logoutUser();
   }
 
   editData(data: any) {

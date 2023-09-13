@@ -11,7 +11,7 @@ button {
     cursor: pointer;
 }
 
-.alert-message .mdc-snackbar__surface {
-    background-color: red !important;
-    text-align: center;
+.disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
 }

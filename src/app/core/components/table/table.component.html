@@ -23,15 +23,29 @@
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let element">
               <div class="icon-container">
-                <div class="edit" (click)="editData(element)">
+                <div
+                  [class.disabled]="!isEditable"
+                  class="edit"
+                  (click)="isEditable ? editData(element) : null"
+                >
                   <mat-icon
+                    [matTooltip]="
+                      isEditable ? 'Edit' : 'You need admin permissions'
+                    "
                     aria-hidden="false"
                     aria-label="Example home icon"
                     fontIcon="edit"
                   ></mat-icon>
                 </div>
-                <div class="delete" (click)="deleteUserModal(element)">
+                <div
+                  [class.disabled]="!isEditable"
+                  class="delete"
+                  (click)="isEditable ? deleteUserModal(element) : null"
+                >
                   <mat-icon
+                    [matTooltip]="
+                      isEditable ? 'Delete' : 'You need admin permissions'
+                    "
                     aria-hidden="false"
                     aria-label="Example home icon"
                     fontIcon="delete"

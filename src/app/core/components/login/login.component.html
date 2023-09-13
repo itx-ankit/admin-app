@@ -1,4 +1,7 @@
 <div class="container">
-    <h1 class="heading">Login into your account to continue</h1>
-    <app-form-field [formData]="loginForm"></app-form-field>
+  <h1 class="heading">Login into your account to continue</h1>
+  <app-form-field
+    [formData]="loginForm"
+    (formGroupEvent)="login($event)"
+  ></app-form-field>
 </div>
