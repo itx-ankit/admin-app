@@ -12,19 +12,19 @@ const routes: Routes = [
     path: 'login',
     canActivate: [ExternalGuard],
     loadComponent: async () =>
-      (await import('./core/login/login.component')).LoginComponent,
+      (await import('./core/components/login/login.component')).LoginComponent,
   },
   {
     path: 'user-list',
     canActivate: [ExternalGuard],
     loadChildren: async () =>
-      (await import('./core/table/table.module')).TableModule,
+      (await import('./core/components/table/table.module')).TableModule,
   },
   {
     path: '**',
     canActivate: [ExternalGuard],
     loadComponent: async () =>
-      (await import('./core/login/login.component')).LoginComponent,
+      (await import('./core/components/login/login.component')).LoginComponent,
   },
 ];
 
