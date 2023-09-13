@@ -1,16 +1,11 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root',
-})
-export class CacheService {
-  store(value: any, uniqueKey: string) {
+export class CacheData {
+  static store(uniqueKey: string, value: any) {
     const key = uniqueKey;
     localStorage.setItem(key, JSON.stringify(value));
     return key;
   }
 
-  fetch(key: string): any {
+  static fetch(key: string): any {
     const cachedObj = localStorage.getItem(key);
     if (cachedObj) {
       return JSON.parse(cachedObj);
@@ -18,7 +13,7 @@ export class CacheService {
     return null;
   }
 
-  deleteKey(key: string): void {
+  static deleteKey(key: string): void {
     localStorage.removeItem(key);
   }
 }

@@ -1,7 +1,18 @@
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { IModalData } from 'src/app/shared/Interface/IModalData';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { IFormField } from 'src/app/shared/Interface/IFormData';
+import { Store } from '@ngrx/store';
+import { getData } from 'src/app/state/user.selector';
+import { FormGroup } from '@angular/forms';
+import { Observable, map, tap } from 'rxjs';
+import { EditUser } from 'src/app/state/user.action';
+import { MatTableDataSource } from '@angular/material/table';
+import { ITableData } from 'src/app/shared/Interface/ITableData';
 
 @Component({
   selector: 'app-table',
@@ -9,24 +20,47 @@ import { IFormField } from 'src/app/shared/Interface/IFormData';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
+  modalRef: MatDialogRef<any> | undefined;
   displayedColumns: string[] = ['userId', 'name', 'Phone no.', 'actions'];
-  dataSource = ELEMENT_DATA;
+  dataSource: MatTableDataSource<ITableData> | undefined;
   editForm!: IFormField[];
+  currentEditIndex: number | undefined;
+  @ViewChild('editModal') editModalElement!: TemplateRef<ElementRef>;
 
-  @ViewChild('deleteModal') deleteElement!: TemplateRef<ElementRef>;
-
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private store: Store) {
+    this.store
+      .select(getData)
+      .pipe(map((data) => data.user))
+      .subscribe((data) => {
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource._updateChangeSubscription();
+      });
+  }
 
   editData(data: any) {
     this.prepareEditForm(data);
+    this.currentEditIndex = data['userId'] - 1;
     const modalUniqueId = Symbol();
     const modalData: IModalData = {
       modalName: 'Edit',
-      componentToLoad: this.deleteElement,
+      componentToLoad: this.editModalElement,
       modalId: modalUniqueId,
       modalHeightVh: 12,
     };
     this.openModal(modalData);
+  }
+
+  updateData(formGroup: FormGroup) {
+    if (this.currentEditIndex !== undefined && this.dataSource !== undefined) {
+      const data = this.dataSource.data[this.currentEditIndex];
+      this.store.dispatch(
+        new EditUser({
+          index: <number>this.currentEditIndex,
+          tableData: { ...data, ...formGroup.value },
+        })
+      );
+      this.modalRef?.close();
+    }
   }
 
   openModal(modalData: IModalData) {
@@ -40,8 +74,11 @@ export class TableComponent {
       height: '200px',
       width: '400px',
     };
-    this.dialog.open(modalData.componentToLoad, modalConf);
-    return modalData.modalId;
+    this.modalRef = this.dialog.open(modalData.componentToLoad, modalConf);
+
+    this.modalRef.afterClosed().subscribe(() => {
+      this.currentEditIndex = undefined;
+    });
   }
 
   prepareEditForm(data: any) {
@@ -61,16 +98,3 @@ export class TableComponent {
     ];
   }
 }
-
-const ELEMENT_DATA: any[] = [
-  { userId: 1, name: 'Amit', 'Phone no.': 284561299 },
-  { userId: 2, name: 'Sumit', 'Phone no.': 437340026 },
-  { userId: 3, name: 'Raj', 'Phone no.': 650683941 },
-  { userId: 4, name: 'Aman', 'Phone no.': 929470122 },
-  { userId: 5, name: 'Harry', 'Phone no.': 1048585811 },
-  { userId: 6, name: 'Hitesh', 'Phone no.': 1239580107 },
-  { userId: 7, name: 'Saurabh', 'Phone no.': 144850067 },
-  { userId: 8, name: 'Naveen', 'Phone no.': 1559499994 },
-  { userId: 9, name: 'Manu', 'Phone no.': 183949984 },
-  { userId: 10, name: 'Alok', 'Phone no.': 20334797 },
-];

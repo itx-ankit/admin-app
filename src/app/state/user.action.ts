@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { ITableData } from '../shared/Interface/ITableData';
 
 export enum UserActionEnum {
   EDIT_USER = 'edit-users',
@@ -7,7 +8,12 @@ export enum UserActionEnum {
 
 export class EditUser implements Action {
   readonly type = UserActionEnum.EDIT_USER;
-  constructor(public data: any) {}
+  constructor(
+    public data: {
+      index: number;
+      tableData: ITableData;
+    }
+  ) {}
 }
 
 export class DeleteUser implements Action {
