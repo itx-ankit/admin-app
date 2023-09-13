@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { StoreModule } from '@ngrx/store';
+import { UserReducer } from './state/user.reducer';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ user: UserReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent],
