@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
+export class ExternalGuard {
   canActivate(): Observable<boolean | UrlTree> {
     return new Observable((observer) => {
       const isLoggedIn: boolean = true;

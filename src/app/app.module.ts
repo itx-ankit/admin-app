@@ -3,26 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { ExternalGuard } from './guards/external.guard';
 import { StoreModule } from '@ngrx/store';
 import { UserReducer } from './state/user.reducer';
 
 const routes: Routes = [
   {
     path: 'login',
-    canActivate: [AuthGuard],
+    canActivate: [ExternalGuard],
     loadComponent: async () =>
       (await import('./core/login/login.component')).LoginComponent,
   },
   {
     path: 'user-list',
-    canActivate: [AuthGuard],
+    canActivate: [ExternalGuard],
     loadChildren: async () =>
       (await import('./core/table/table.module')).TableModule,
   },
   {
     path: '**',
-    canActivate: [AuthGuard],
+    canActivate: [ExternalGuard],
     loadComponent: async () =>
       (await import('./core/login/login.component')).LoginComponent,
   },
