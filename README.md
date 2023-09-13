@@ -1,3 +1,5 @@
+This code is deployed at https://my-simple-admin-app.netlify.app/
+
 This is the simple app to manipulate permission absed on user credentials
 
 ## AdminCredentials
