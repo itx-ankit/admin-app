@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IUserData } from 'src/app/shared/Interface/IUserData';
+import { Router } from '@angular/router';
+import { ICredential, IUserData } from 'src/app/shared/Interface/IUserData';
 import { CacheData } from 'src/app/shared/classes/cacheData';
-import { CURRENT_USER_KEY } from 'src/app/shared/classes/cacheKeys';
+import {
+  CURRENT_USER_KEY,
+  USER_LIST_KEY,
+} from 'src/app/shared/classes/cacheKeys';
 
 @Injectable({
   providedIn: 'root',
@@ -9,15 +13,39 @@ import { CURRENT_USER_KEY } from 'src/app/shared/classes/cacheKeys';
 export class AuthenticationService {
   currentUserData: IUserData | undefined = CacheData.fetch(CURRENT_USER_KEY);
 
-  loginUser(data: IUserData) {
-    CacheData.store(CURRENT_USER_KEY, data);
+  constructor(private route: Router) {}
+  loginUser(data: ICredential) {
+    const userData = this.findUser(data);
+    if (userData) {
+      CacheData.store(CURRENT_USER_KEY, userData);
+      this.currentUserData = CacheData.fetch(CURRENT_USER_KEY);
+      this.routeToUserList();
+    }
+  }
+
+  routeToUserList() {
+    this.route.navigateByUrl('/user-list');
+  }
+
+  findUser(data: ICredential): IUserData | undefined {
+    let userPresent = false;
+    const userData: IUserData = { ...data, isUserAdmin: false };
+    const userList: IUserData[] = CacheData.fetch(USER_LIST_KEY);
+    for (let user of userList) {
+      if (user.password === data.password && user.userName === data.userName) {
+        userData.isUserAdmin = user.isUserAdmin;
+        userPresent = true;
+        break;
+      }
+    }
+    return userPresent ? userData : undefined;
   }
 
   logoutUser() {
     CacheData.deleteKey(CURRENT_USER_KEY);
+    this.route.navigateByUrl('');
     setTimeout(() => {
-      window.open(location.href, '_self');
-      // location.reload();
-    }, 0);
+      location.reload();
+    }, 100);
   }
 }

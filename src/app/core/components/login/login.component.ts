@@ -23,18 +23,16 @@ export class LoginComponent {
 
   loginForm: IFormField[] = [
     {
-      type: 'email',
-      name: 'email',
-      placeholder: 'Enter email',
+      type: 'text',
+      name: 'userName',
+      placeholder: 'Enter username',
       required: true,
-      regex: '',
     },
     {
       type: 'password',
       name: 'password',
       placeholder: 'Enter password',
       required: true,
-      regex: '',
     },
   ];
 }

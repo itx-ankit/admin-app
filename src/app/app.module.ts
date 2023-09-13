@@ -9,6 +9,12 @@ import { UserReducer } from './state/user.reducer';
 
 const routes: Routes = [
   {
+    path: '',
+    canActivate: [ExternalGuard],
+    loadComponent: async () =>
+      (await import('./core/components/login/login.component')).LoginComponent,
+  },
+  {
     path: 'login',
     canActivate: [ExternalGuard],
     loadComponent: async () =>
