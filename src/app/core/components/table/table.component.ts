@@ -126,7 +126,7 @@ export class TableComponent {
       },
       {
         type: 'number',
-        name: 'phone',
+        name: 'Phone no.',
         placeholder: 'Modify Phone Number',
         value: data['Phone no.'],
       },
