@@ -1,4 +1,5 @@
-import { ITableData } from "./shared/Interface/ITableData";
+import { ITableData } from './shared/Interface/ITableData';
+import { IUserData } from './shared/Interface/IUserData';
 
 export const ELEMENT_DATA: ITableData[] = [
   { userId: 1, name: 'Amit', 'Phone no.': 284561299 },
@@ -11,4 +12,17 @@ export const ELEMENT_DATA: ITableData[] = [
   { userId: 8, name: 'Naveen', 'Phone no.': 1559499994 },
   { userId: 9, name: 'Manu', 'Phone no.': 183949984 },
   { userId: 10, name: 'Alok', 'Phone no.': 20334797 },
+];
+
+export const USER_LIST_DATA: IUserData[] = [
+  {
+    userName: 'admin',
+    password: 'admin',
+    isUserAdmin: true,
+  },
+  {
+    userName: 'user',
+    password: 'user',
+    isUserAdmin: false,
+  },
 ];

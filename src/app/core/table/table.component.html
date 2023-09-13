@@ -1,4 +1,12 @@
 <ng-container *ngIf="dataSource">
+  <div (click)="logout()" class="logout-icon">
+    <mat-icon
+      matTooltip="Logout"
+      aria-hidden="false"
+      aria-label="Example home icon"
+      fontIcon="power_settings_new"
+    ></mat-icon>
+  </div>
   <div class="container">
     <h1>User List</h1>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

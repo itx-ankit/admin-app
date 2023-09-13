@@ -1,17 +1,23 @@
-import { ELEMENT_DATA } from '../response';
+import { ELEMENT_DATA, USER_LIST_DATA } from '../response';
 import { ITableData } from '../shared/Interface/ITableData';
-import { CacheData } from '../shared/cache.service';
+import { CacheData } from '../shared/classes/cacheData';
+import { TABLE_DATA_KEY, USER_LIST_KEY } from '../shared/classes/constants';
 import { UserActionEnum } from './user.action';
 import { cloneDeep } from 'lodash';
 
-const tableKey = 'table_data_key';
 let defaultTableValue: ITableData[] = [];
 
+// Set Default UserList if needed
 (function checkStorage() {
-  if (!CacheData.fetch(tableKey)?.length) {
-    CacheData.store(tableKey, ELEMENT_DATA);
+  if (!CacheData.fetch(TABLE_DATA_KEY)?.length) {
+    CacheData.store(TABLE_DATA_KEY, ELEMENT_DATA);
   }
-  defaultTableValue = CacheData.fetch(tableKey);
+  defaultTableValue = CacheData.fetch(TABLE_DATA_KEY);
+})();
+
+// Setting Userlist for login & Logout purpose
+(function setUserList() {
+  CacheData.store(USER_LIST_KEY, USER_LIST_DATA);
 })();
 
 export function UserReducer(
@@ -24,7 +30,7 @@ export function UserReducer(
       if (action.data?.index !== undefined) {
         updatedState[action.data.index] = action.data.tableData;
       }
-      CacheData.store(tableKey, updatedState);
+      CacheData.store(TABLE_DATA_KEY, updatedState);
       return updatedState;
     }
 
@@ -40,7 +46,7 @@ export function UserReducer(
         return userData;
       });
 
-      CacheData.store(tableKey, updatedState);
+      CacheData.store(TABLE_DATA_KEY, updatedState);
       return updatedState;
     }
     default:

@@ -9,7 +9,7 @@ import { IFormField } from 'src/app/shared/Interface/IFormData';
 import { Store } from '@ngrx/store';
 import { getData } from 'src/app/state/user.selector';
 import { FormGroup } from '@angular/forms';
-import { Observable, map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { DeleteUser, EditUser } from 'src/app/state/user.action';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableData } from 'src/app/shared/Interface/ITableData';
@@ -36,6 +36,10 @@ export class TableComponent {
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource._updateChangeSubscription();
       });
+  }
+
+  logout() {
+    // CacheData.deleteKey()
   }
 
   editData(data: any) {
