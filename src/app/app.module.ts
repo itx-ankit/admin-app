@@ -24,7 +24,8 @@ const routes: Routes = [
     path: '**',
     canActivate: [ExternalGuard],
     loadComponent: async () =>
-      (await import('./core/components/login/login.component')).LoginComponent,
+      (await import('./core/components/error-page/error-page.component'))
+        .ErrorPageComponent,
   },
 ];
 

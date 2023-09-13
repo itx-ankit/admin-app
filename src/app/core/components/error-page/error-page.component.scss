@@ -1,0 +1,33 @@
+.error-container {
+  height: 100%;
+  padding: 40px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("/assets/404.png");
+  background-position: center;
+  background-repeat: no-repeat;
+
+  .message {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .heading {
+      font-size: 3rem;
+      font-weight: 500;
+      text-align: center;
+      line-height: 60px;
+    }
+
+    .description {
+      font-size: 2rem;
+      font-weight: 500;
+      color: gray;
+      text-align: center;
+      line-height: 40px;
+    }
+  }
+}
