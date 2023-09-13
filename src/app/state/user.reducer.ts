@@ -2,12 +2,13 @@ import { ELEMENT_DATA } from '../response';
 import { ITableData } from '../shared/Interface/ITableData';
 import { CacheData } from '../shared/cache.service';
 import { UserActionEnum } from './user.action';
+import { cloneDeep } from 'lodash';
 
 const tableKey = 'table_data_key';
 let defaultTableValue: ITableData[] = [];
 
 (function checkStorage() {
-  if (!CacheData.fetch(tableKey)) {
+  if (!CacheData.fetch(tableKey)?.length) {
     CacheData.store(tableKey, ELEMENT_DATA);
   }
   defaultTableValue = CacheData.fetch(tableKey);
@@ -26,8 +27,21 @@ export function UserReducer(
       CacheData.store(tableKey, updatedState);
       return updatedState;
     }
+
     case UserActionEnum.DELETE_USER: {
-      return state;
+      let updatedState: any[] = cloneDeep(state);
+      const index = action.index;
+      if (index !== undefined) {
+        updatedState.splice(index, 1);
+      }
+
+      updatedState.map((userData, index) => {
+        userData.userId = index + 1;
+        return userData;
+      });
+
+      CacheData.store(tableKey, updatedState);
+      return updatedState;
     }
     default:
       return state;

@@ -18,5 +18,5 @@ export class EditUser implements Action {
 
 export class DeleteUser implements Action {
   readonly type = UserActionEnum.DELETE_USER;
-  constructor(public data: any) {}
+  constructor(public index: number) {}
 }

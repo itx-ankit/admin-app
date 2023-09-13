@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { getData } from 'src/app/state/user.selector';
 import { FormGroup } from '@angular/forms';
 import { Observable, map, tap } from 'rxjs';
-import { EditUser } from 'src/app/state/user.action';
+import { DeleteUser, EditUser } from 'src/app/state/user.action';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITableData } from 'src/app/shared/Interface/ITableData';
 
@@ -26,6 +26,7 @@ export class TableComponent {
   editForm!: IFormField[];
   currentEditIndex: number | undefined;
   @ViewChild('editModal') editModalElement!: TemplateRef<ElementRef>;
+  @ViewChild('deleteModal') deleteModalElement!: TemplateRef<ElementRef>;
 
   constructor(private dialog: MatDialog, private store: Store) {
     this.store
@@ -40,14 +41,35 @@ export class TableComponent {
   editData(data: any) {
     this.prepareEditForm(data);
     this.currentEditIndex = data['userId'] - 1;
-    const modalUniqueId = Symbol();
     const modalData: IModalData = {
       modalName: 'Edit',
       componentToLoad: this.editModalElement,
-      modalId: modalUniqueId,
-      modalHeightVh: 12,
     };
     this.openModal(modalData);
+  }
+
+  deleteUserModal(data: any) {
+    this.currentEditIndex = data['userId'] - 1;
+    const modalData: IModalData = {
+      modalName: 'Edit',
+      componentToLoad: this.deleteModalElement,
+    };
+    this.openModal(modalData);
+  }
+
+  deleteUserData() {
+    if (
+      this.currentEditIndex !== undefined &&
+      this.dataSource !== undefined &&
+      this.dataSource.data[this.currentEditIndex]
+    ) {
+      this.store.dispatch(new DeleteUser(<number>this.currentEditIndex));
+      this.closeModal();
+    }
+  }
+
+  closeModal() {
+    this.modalRef?.close();
   }
 
   updateData(formGroup: FormGroup) {
@@ -59,7 +81,7 @@ export class TableComponent {
           tableData: { ...data, ...formGroup.value },
         })
       );
-      this.modalRef?.close();
+      this.closeModal();
     }
   }
 

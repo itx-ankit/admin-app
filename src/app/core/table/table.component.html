@@ -22,7 +22,7 @@
                     fontIcon="edit"
                   ></mat-icon>
                 </div>
-                <div class="delete">
+                <div class="delete" (click)="deleteUserModal(element)">
                   <mat-icon
                     aria-hidden="false"
                     aria-label="Example home icon"
@@ -44,5 +44,14 @@
       [formData]="editForm"
       (formGroupEvent)="updateData($event)"
     ></app-form-field>
+  </ng-template>
+  <ng-template #deleteModal>
+    <div class="delete-container">
+      <h2 class="heading">Are you sure you want to delete this user</h2>
+      <div class="button-container">
+        <button class="back-button" (click)="closeModal()">Cancel</button>
+        <button class="delete-button" (click)="deleteUserData()">Delete</button>
+      </div>
+    </div>
   </ng-template>
 </ng-container>
