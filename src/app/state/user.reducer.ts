@@ -42,7 +42,7 @@ export function UserReducer(
       }
 
       updatedState.map((userData, index) => {
-        userData.userId = index + 1;
+        userData.index = index + 1;
         return userData;
       });
 

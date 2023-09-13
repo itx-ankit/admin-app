@@ -24,7 +24,7 @@ import { CacheData } from 'src/app/shared/classes/cacheData';
 })
 export class TableComponent {
   modalRef: MatDialogRef<any> | undefined;
-  displayedColumns: string[] = ['userId', 'name', 'Phone no.', 'actions'];
+  displayedColumns: string[] = ['index', 'name', 'Phone no.', 'actions'];
   dataSource: MatTableDataSource<ITableData> | undefined;
   editForm!: IFormField[];
   currentEditIndex: number | undefined;
@@ -53,7 +53,7 @@ export class TableComponent {
 
   editData(data: any) {
     this.prepareEditForm(data);
-    this.currentEditIndex = data['userId'] - 1;
+    this.currentEditIndex = data['index'] - 1;
     const modalData: IModalData = {
       modalName: 'Edit',
       componentToLoad: this.editModalElement,
@@ -62,7 +62,7 @@ export class TableComponent {
   }
 
   deleteUserModal(data: any) {
-    this.currentEditIndex = data['userId'] - 1;
+    this.currentEditIndex = data['index'] - 1;
     const modalData: IModalData = {
       modalName: 'Edit',
       componentToLoad: this.deleteModalElement,

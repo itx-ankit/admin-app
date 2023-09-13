@@ -1,5 +1,5 @@
 export interface ITableData {
-    userId: number
+    index: number
     name: string
     "Phone no.": number
   }
