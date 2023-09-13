@@ -1,7 +1,7 @@
 import { ELEMENT_DATA, USER_LIST_DATA } from '../response';
 import { ITableData } from '../shared/Interface/ITableData';
 import { CacheData } from '../shared/classes/cacheData';
-import { TABLE_DATA_KEY, USER_LIST_KEY } from '../shared/classes/constants';
+import { TABLE_DATA_KEY, USER_LIST_KEY } from '../shared/classes/cacheKeys';
 import { UserActionEnum } from './user.action';
 import { cloneDeep } from 'lodash';
 
