@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ExternalGuard } from './guards/external.guard';
 import { StoreModule } from '@ngrx/store';
 import { UserReducer } from './state/user.reducer';
+import { InternalGuard } from './guards/internal.guard';
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'user-list',
-    canActivate: [ExternalGuard],
+    canActivate: [InternalGuard],
     loadChildren: async () =>
       (await import('./core/components/table/table.module')).TableModule,
   },
