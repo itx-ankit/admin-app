@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TableComponent } from './table.component';
+import { FormFieldComponent } from 'src/app/shared/form-field/form-field.component';
 
 const routes: Routes = [
   {
@@ -13,16 +14,15 @@ const routes: Routes = [
   },
 ];
 
-const matModules = [
-  MatDialogModule,
-  MatTableModule,
-  MatIconModule,
-  CommonModule,
-];
+const matModules = [MatDialogModule, MatTableModule, MatIconModule];
 
 @NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    FormFieldComponent,
+    ...matModules,
+  ],
   declarations: [TableComponent],
-  imports: [...matModules, RouterModule.forChild(routes)],
-  exports: [...matModules],
 })
 export class TableModule {}

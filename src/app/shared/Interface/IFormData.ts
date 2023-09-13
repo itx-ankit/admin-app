@@ -6,10 +6,10 @@ export interface IFormData {
 }
 
 export interface IFormField {
-  type: 'password' | 'email';
+  type: 'password' | 'email' | 'number' | 'text';
   name: string;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   regex?: RegExp | string;
   /**
    * Item parameter is of three different type,

@@ -8,13 +8,13 @@
           <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
         </ng-container>
       </ng-container>
-  
+
       <ng-container *ngIf="column === 'actions'">
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
             <div class="icon-container">
-              <div class="edit">
+              <div class="edit" (click)="editData(element)">
                 <mat-icon
                   aria-hidden="false"
                   aria-label="Example home icon"
@@ -33,9 +33,11 @@
         </ng-container>
       </ng-container>
     </ng-container>
-  
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  
 </div>
+
+<ng-template #deleteModal>
+  <app-form-field [formData]="editForm"></app-form-field>
+</ng-template>

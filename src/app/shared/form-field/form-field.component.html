@@ -4,6 +4,46 @@
       <ng-container *ngFor="let field of formData">
         <!-- Form Field Starts -->
 
+        <!-- Number Field starts -->
+        <ng-container *ngIf="field.type === 'number'">
+          <mat-form-field [appearance]="'outline'">
+            <input
+              matInput
+              type="number"
+              [placeholder]="field.placeholder"
+              [formControlName]="field.name"
+            />
+          </mat-form-field>
+          <ng-container *ngIf="control[field.name] as fieldControl">
+            <ng-container
+              *ngIf="fieldControl.errors?.['required'] && fieldControl.touched"
+            >
+              <mat-error> {{ field.name | titlecase }} is required</mat-error>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <!-- Number Field ends -->
+
+        <!-- Text Field starts -->
+        <ng-container *ngIf="field.type === 'text'">
+          <mat-form-field [appearance]="'outline'">
+            <input
+              matInput
+              type="text"
+              [placeholder]="field.placeholder"
+              [formControlName]="field.name"
+            />
+          </mat-form-field>
+          <ng-container *ngIf="control[field.name] as fieldControl">
+            <ng-container
+              *ngIf="fieldControl.errors?.['required'] && fieldControl.touched"
+            >
+              <mat-error> {{ field.name | titlecase }} is required</mat-error>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <!-- Text Field ends -->
+
         <!-- Email Field starts -->
         <ng-container *ngIf="field.type === 'email'">
           <mat-form-field [appearance]="'outline'">

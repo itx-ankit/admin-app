@@ -1,6 +1,7 @@
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { IModalData } from 'src/app/shared/Interface/IModalData';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { IFormField } from 'src/app/shared/Interface/IFormData';
 
 @Component({
   selector: 'app-table',
@@ -10,12 +11,14 @@ import { MatDialog } from '@angular/material/dialog';
 export class TableComponent {
   displayedColumns: string[] = ['userId', 'name', 'Phone no.', 'actions'];
   dataSource = ELEMENT_DATA;
+  editForm!: IFormField[];
 
   @ViewChild('deleteModal') deleteElement!: TemplateRef<ElementRef>;
 
   constructor(private dialog: MatDialog) {}
 
-  delete(data: any) {
+  editData(data: any) {
+    this.prepareEditForm(data);
     const modalUniqueId = Symbol();
     const modalData: IModalData = {
       modalName: 'Edit',
@@ -30,13 +33,32 @@ export class TableComponent {
     if (!modalData) {
       return;
     }
-    const modalConf = {
+    const modalConf: MatDialogConfig = {
       data: {
         modalData: modalData,
       },
+      height: '200px',
+      width: '400px',
     };
     this.dialog.open(modalData.componentToLoad, modalConf);
     return modalData.modalId;
+  }
+
+  prepareEditForm(data: any) {
+    this.editForm = [
+      {
+        type: 'text',
+        name: 'name',
+        placeholder: 'Modify Name',
+        value: data.name,
+      },
+      {
+        type: 'number',
+        name: 'phone',
+        placeholder: 'Modify Phone Number',
+        value: data['Phone no.'],
+      },
+    ];
   }
 }
 
