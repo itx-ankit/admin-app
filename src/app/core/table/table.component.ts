@@ -1,35 +1,54 @@
-import { Component } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule, NgFor } from '@angular/common';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { IModalData } from 'src/app/shared/Interface/IModalData';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  standalone: true,
-  imports: [MatTableModule, MatIconModule, CommonModule],
 })
 export class TableComponent {
-  displayedColumns: string[] = [
-    'position',
-    'name',
-    'weight',
-    'symbol',
-    'actions',
-  ];
+  displayedColumns: string[] = ['userId', 'name', 'Phone no.', 'actions'];
   dataSource = ELEMENT_DATA;
+
+  @ViewChild('deleteModal') deleteElement!: TemplateRef<ElementRef>;
+
+  constructor(private dialog: MatDialog) {}
+
+  delete(data: any) {
+    const modalUniqueId = Symbol();
+    const modalData: IModalData = {
+      modalName: 'Edit',
+      componentToLoad: this.deleteElement,
+      modalId: modalUniqueId,
+      modalHeightVh: 12,
+    };
+    this.openModal(modalData);
+  }
+
+  openModal(modalData: IModalData) {
+    if (!modalData) {
+      return;
+    }
+    const modalConf = {
+      data: {
+        modalData: modalData,
+      },
+    };
+    this.dialog.open(modalData.componentToLoad, modalConf);
+    return modalData.modalId;
+  }
 }
 
 const ELEMENT_DATA: any[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+  { userId: 1, name: 'Amit', 'Phone no.': 284561299 },
+  { userId: 2, name: 'Sumit', 'Phone no.': 437340026 },
+  { userId: 3, name: 'Raj', 'Phone no.': 650683941 },
+  { userId: 4, name: 'Aman', 'Phone no.': 929470122 },
+  { userId: 5, name: 'Harry', 'Phone no.': 1048585811 },
+  { userId: 6, name: 'Hitesh', 'Phone no.': 1239580107 },
+  { userId: 7, name: 'Saurabh', 'Phone no.': 144850067 },
+  { userId: 8, name: 'Naveen', 'Phone no.': 1559499994 },
+  { userId: 9, name: 'Manu', 'Phone no.': 183949984 },
+  { userId: 10, name: 'Alok', 'Phone no.': 20334797 },
 ];

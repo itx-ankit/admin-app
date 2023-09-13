@@ -15,8 +15,8 @@ const routes: Routes = [
   {
     path: 'user-list',
     canActivate: [AuthGuard],
-    loadComponent: async () =>
-      (await import('./core/table/table.component')).TableComponent,
+    loadChildren: async () =>
+      (await import('./core/table/table.module')).TableModule,
   },
   {
     path: '**',
